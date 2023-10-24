@@ -23,7 +23,7 @@ To run the script, navigate to the directory where the script is located and exe
 
 ```bash
 python your_script_name.py [OPTIONS]
-
+```
 ## Available Options
 
 Here are the command-line options you can use when running the script:
