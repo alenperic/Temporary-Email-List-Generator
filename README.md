@@ -23,3 +23,13 @@ To run the script, navigate to the directory where the script is located and exe
 
 ```bash
 python your_script_name.py [OPTIONS]
+
+## Available Options
+
+Here are the command-line options you can use when running the script:
+
+- `-L, --local-file`: Specify a local file to use as the past dataset (Default: `last_quarter.csv`).
+- `-C, --column`: Specify the column index to use for de-duplication and comparison (Default: `0`).
+- `-D, --github-file`: Specify a local `.txt` file containing GitHub repository URLs. The script will fetch and append data from these repositories.
+- `-M, --main-file`: Specify the main CSV file to process (Default: `this_quarter_raw.csv`).
+- `-W, --whitelist-file`: Specify the whitelist CSV file to use for removing entries (Default: `20k.csv`).
