@@ -8,7 +8,7 @@ parser.add_argument('-L', '--local-file', help='Specify a local file to use', re
 parser.add_argument('-C', '--column', help='Specify the column to use', required=False, default=0, type=int)
 parser.add_argument('-D', '--github-file', help='Specify a local .txt file containing GitHub repos', required=False)
 parser.add_argument('-M', '--main-file', help='Specify the main CSV file', required=False, default='this_quarter_raw.csv')
-parser.add_argument('-W', '--whitelist-file', help='Specify the whitelist CSV file', required=False, default='20k.csv')
+parser.add_argument('-W', '--whitelist-file', help='Specify the whitelist CSV file', required=False, default='allowlist.csv')
 args = parser.parse_args()
 
 # Fetch data from GitHub repositories specified in a .txt file
