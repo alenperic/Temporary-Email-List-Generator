@@ -6,7 +6,7 @@ import urllib.error
 
 # Command-line argument parsing
 parser = argparse.ArgumentParser(description='Process CSV files.')
-parser.add_argument('-L', '--local-file', help='Specify a local file to use', required=False)
+parser.add_argument('-L', '--local-file', help='Specify a local file to use', required=False, default='old_list.csv')
 parser.add_argument('-C', '--column', help='Specify the column to use', required=False, default=0, type=int)
 parser.add_argument('-D', '--github-file', help='Specify a local .txt file containing GitHub repos', required=False)
 parser.add_argument('-S', '--sources-file', help='Specify a local .txt file containing data source URLs', required=False, default='sources.txt')
@@ -16,6 +16,7 @@ args = parser.parse_args()
 
 # Download data from URLs specified in a .txt file or pre-specified URLs
 def download_data_from_sources(file_path=None):
+    appended_data = pd.DataFrame()
     if file_path:
         with open(file_path, 'r') as f:
             urls = f.readlines()
@@ -24,7 +25,7 @@ def download_data_from_sources(file_path=None):
             'http://example.com/pre-specified-file1.csv',
             'http://example.com/pre-specified-file2.csv'
         ]
-        
+
     for url in urls:
         url = url.strip()
         filename = url.split('/')[-1]
@@ -34,10 +35,14 @@ def download_data_from_sources(file_path=None):
                 print(f"Source {url} is accessible.")
                 print(f"Downloading data from {url}...")
                 urllib.request.urlretrieve(url, filename)
+                temp_df = pd.read_csv(filename, header=None)
+                appended_data = pd.concat([appended_data, temp_df], ignore_index=True)
             else:
                 print(f"Received HTTP status code {response.status} for URL {url}.")
         except urllib.error.URLError as e:
             print(f"Failed to access {url}. Error: {e.reason}")
+
+    return appended_data
 
 # Import the main CSV file
 def import_csv(file_path):
@@ -72,23 +77,30 @@ def compare_and_count_new_entries(df, past_df, column):
 if __name__ == "__main__":
     main_file = args.main_file
     whitelist_file = args.whitelist_file
-    past_file = args.local_file if args.local_file else "old_list.csv"
+    past_file = args.local_file
     output_file = "new_list.csv"
     new_entries_file = "new_entries.csv"
     column = args.column
 
     # Download data from sources if -S option is provided or use pre-specified URLs
+    appended_data = None
     if args.sources_file:
         if os.path.exists(args.sources_file):
             print(f"Downloading data from sources specified in {args.sources_file}...")
-            download_data_from_sources(args.sources_file)
+            appended_data = download_data_from_sources(args.sources_file)
         else:
             print(f"Error: File {args.sources_file} does not exist.")
     else:
         print("Downloading data from pre-specified URLs...")
-        download_data_from_sources()
+        appended_data = download_data_from_sources()
 
+    # Import the main CSV file
     main_df = import_csv(main_file)
+
+    # If downloaded data is available, append it to the main DataFrame
+    if appended_data is not None and not appended_data.empty:
+        main_df = pd.concat([main_df, appended_data], ignore_index=True)
+
     main_df = deduplicate(main_df, column)
     main_df = remove_whitelisted(main_df, whitelist_file, column)
     save_csv(main_df, output_file)
