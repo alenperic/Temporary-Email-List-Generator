@@ -39,8 +39,12 @@ def download_data_from_sources(file_path=None):
 
 # Import the main CSV file
 def import_csv(file_path):
-    df = pd.read_csv(file_path, header=None)
-    return df
+    if os.path.exists(file_path):
+        df = pd.read_csv(file_path, header=None)
+        return df
+    else:
+        print(f"Warning: {file_path} does not exist. An empty DataFrame will be used.")
+        return pd.DataFrame()
 
 # De-duplicate the entries
 def deduplicate(df, column):
