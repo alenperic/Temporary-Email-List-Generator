@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(description='Process CSV files.')
 parser.add_argument('-L', '--local-file', help='Specify a local file to use', required=False)
 parser.add_argument('-C', '--column', help='Specify the column to use', required=False, default=0, type=int)
 parser.add_argument('-D', '--github-file', help='Specify a local .txt file containing GitHub repos', required=False)
-parser.add_argument('-M', '--main-file', help='Specify the main CSV file', required=False, default='this_quarter_raw.csv')
+parser.add_argument('-M', '--main-file', help='Specify the main CSV file', required=False, default='new_list_unedited.csv')
 parser.add_argument('-W', '--whitelist-file', help='Specify the whitelist CSV file', required=False, default='allowlist.csv')
 args = parser.parse_args()
 
@@ -50,8 +50,8 @@ if __name__ == "__main__":
     # File paths
     main_file = args.main_file
     whitelist_file = args.whitelist_file
-    past_file = args.local_file if args.local_file else "last_quarter.csv"
-    output_file = "this_quarter.csv"
+    past_file = args.local_file if args.local_file else "old_list.csv"
+    output_file = "new_list.csv"
     new_entries_file = "new_entries.csv"
     column = args.column
 
