@@ -33,3 +33,10 @@ Here are the command-line options you can use when running the script:
 - `-D, --github-file`: Specify a local `.txt` file containing GitHub repository URLs. The script will fetch and append data from these repositories (Default: `sources.txt`).
 - `-M, --main-file`: Specify the main CSV file to process (Default: `new_list_unedited.csv`).
 - `-W, --whitelist-file`: Specify the whitelist CSV file to use for removing entries (Default: `allowlist.csv`).
+
+## Updates
+Script now includes:
+- Command-line arguments for various options
+- Downloading data from specified URLs or from a text file
+- Checking the accessibility of each URL based on HTTP status codes
+- Printing the entries removed based on the whitelist
