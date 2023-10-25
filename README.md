@@ -12,6 +12,15 @@ This Python script is designed to automate the analysis and cleaning of temporar
 
 The script also supports the option to fetch and append data from GitHub repositories.
 
+## Output
+
+The script generates several files:
+
+- `new_list.csv`: The updated list of email domains.
+- `new_entries.csv`: New entries that were not in the old list.
+- `Output.txt`: Summary statistics, including the number of entries in the old list, the number of new entries, and any discrepancies.
+- `allowlist_removed.txt`: A list of entries that were removed based on the allowlist.
+
 ## Dependencies
 
 - Python 3.x
@@ -24,6 +33,7 @@ To run the script, navigate to the directory where the script is located and exe
 ```bash
 python generate_list.py [OPTIONS]
 ```
+
 ## Available Options
 
 Here are the command-line options you can use when running the script:
@@ -40,3 +50,11 @@ Script now includes:
 - Downloading data from specified URLs or from a text file
 - Checking the accessibility of each URL based on HTTP status codes
 - Printing the entries removed based on the whitelist
+
+## Backup and Versioning
+
+The script can be placed on a server and automatically executed with cronjob, or similar. In that case the script uses the previously generated new list in place of old list, backs up the old list and versions it with the current month and year for record-keeping.
+
+## License
+
+This project is licensed under the MIT License.
