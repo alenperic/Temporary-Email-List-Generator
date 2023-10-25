@@ -72,8 +72,17 @@ if __name__ == "__main__":
     # Rename existing new_list.csv if exists
     rename_existing_new_list()
 
+    # Fallback logic for main data frame
+    if os.path.exists(args.main_file):
+        main_df = import_csv(args.main_file)
+    elif os.path.exists(args.local_file):
+        print(f"{args.main_file} not found. Using {args.local_file} as the data source.")
+        main_df = import_csv(args.local_file)
+    else:
+        print("Error: Neither new_list_unedited.csv nor old_list.csv found.")
+        exit(1)
+
     # Rest of your existing code for CSV processing, deduplication, etc.
-    main_df = import_csv(args.main_file)
     main_df = deduplicate(main_df, args.column)
     main_df = remove_whitelisted(main_df, args.whitelist_file, args.column)
     save_csv(main_df, 'new_list.csv')
