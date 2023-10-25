@@ -20,12 +20,11 @@ args = parser.parse_args()
 def backup_and_rename_files():
     current_date = datetime.now().strftime("%m%Y")
     
-    # Rename old_list.csv to backup_old_listMMYYY
-    if os.path.exists('old_list.csv'):
-        os.rename('old_list.csv', f'backup_old_list{current_date}.csv')
+
 
     # Rename new_list.csv to old_list.csv and make a copy as old_list_MMYYYY.csv
     if os.path.exists('new_list.csv'):
+        os.rename('old_list.csv', f'backup_old_list{current_date}.csv')
         os.rename('new_list.csv', 'old_list.csv')
         shutil.copy('old_list.csv', f'old_list_{current_date}.csv')
 
