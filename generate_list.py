@@ -3,7 +3,8 @@ import argparse
 import os
 import urllib.request
 import urllib.error
-import datetime
+import shutil
+from datetime import datetime
 
 # Command-line argument parsing
 parser = argparse.ArgumentParser(description='Process CSV files.')
@@ -14,12 +15,19 @@ parser.add_argument('-M', '--main-file', help='Specify the main CSV file', requi
 parser.add_argument('-W', '--whitelist-file', help='Specify the whitelist CSV file', required=False, default='allowlist.csv')
 args = parser.parse_args()
 
-def rename_existing_new_list():
-    current_time = datetime.datetime.now()
-    timestamp = current_time.strftime('%m%Y')  # MMYYYY format
+
+
+def backup_and_rename_files():
+    current_date = datetime.now().strftime("%m%Y")
+    
+    # Rename old_list.csv to backup_old_listMMYYY
+    if os.path.exists('old_list.csv'):
+        os.rename('old_list.csv', f'backup_old_list{current_date}.csv')
+
+    # Rename new_list.csv to old_list.csv and make a copy as old_list_MMYYYY.csv
     if os.path.exists('new_list.csv'):
         os.rename('new_list.csv', 'old_list.csv')
-        os.system(f'cp old_list.csv old_list_{timestamp}.csv')
+        shutil.copy('old_list.csv', f'old_list_{current_date}.csv')
 
 # Download data from URLs specified in a .txt file or pre-specified URLs
 def download_data_from_sources(file_path=None):
@@ -97,7 +105,7 @@ def generate_output_txt(old_count, new_entries_count, new_list_count):
         f.write(f'Discrepancy: {discrepancy}\n')
 
 if __name__ == "__main__":
-    rename_existing_new_list()
+    backup_and_rename_files()
     main_file = args.main_file
     whitelist_file = args.whitelist_file
     past_file = args.local_file
