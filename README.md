@@ -1,8 +1,8 @@
-# Temporary Email Domains Processor
+# Temporary Email Domains List Creation Automation
 
 ## Description
 
-This Python script is designed to automate the analysis and cleaning of temporary email domains from CSV files. It performs the following tasks:
+This Python script is designed to automate the analysis and cleaning of temporary email domains from CSV files and serves to generate a blocklist for domains used to host temporary email domains. It performs the following tasks:
 
 1. Imports a main CSV file.
 2. De-duplicates entries based on a specified column.
