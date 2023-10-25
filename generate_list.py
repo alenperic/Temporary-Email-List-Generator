@@ -28,14 +28,12 @@ def download_data_from_sources(file_path=None):
 
     for url in urls:
         url = url.strip()
-        filename = url.split('/')[-1]
         try:
             response = urllib.request.urlopen(url)
             if response.status == 200:
                 print(f"Source {url} is accessible.")
                 print(f"Downloading data from {url}...")
-                urllib.request.urlretrieve(url, filename)
-                temp_df = pd.read_csv(filename, header=None)
+                temp_df = pd.read_csv(url, header=None)
                 appended_data = pd.concat([appended_data, temp_df], ignore_index=True)
             else:
                 print(f"Received HTTP status code {response.status} for URL {url}.")
