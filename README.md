@@ -22,7 +22,7 @@ The script also supports the option to fetch and append data from GitHub reposit
 To run the script, navigate to the directory where the script is located and execute the following command:
 
 ```bash
-python your_script_name.py [OPTIONS]
+python generate_list.py [OPTIONS]
 ```
 ## Available Options
 
