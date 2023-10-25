@@ -20,13 +20,11 @@ args = parser.parse_args()
 def backup_and_rename_files():
     current_date = datetime.now().strftime("%m%Y")
     
-
-
     # Rename new_list.csv to old_list.csv and make a copy as old_list_MMYYYY.csv
     if os.path.exists('new_list.csv'):
         os.rename('old_list.csv', f'backup_old_list{current_date}.csv')
         os.rename('new_list.csv', 'old_list.csv')
-        shutil.copy('old_list.csv', f'old_list_{current_date}.csv')
+        shutil.copy('old_list.csv', f'new_list_{current_date}.csv')
 
 # Download data from URLs specified in a .txt file or pre-specified URLs
 def download_data_from_sources(file_path=None):
