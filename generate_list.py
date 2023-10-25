@@ -91,3 +91,18 @@ if __name__ == "__main__":
     new_entries, count_new_entries = compare_and_count_new_entries(main_df, past_df, args.column)
     print(f"Number of new entries: {count_new_entries}")
     save_csv(new_entries, 'new_entries.csv')
+
+    # Compare to a past list and count new entries
+    new_entries, count_new_entries = compare_and_count_new_entries(main_df, past_df, args.column)
+    print(f"Number of new entries: {count_new_entries}")
+    save_csv(new_entries, 'new_entries.csv')
+
+    # Generate Output.txt with summary statistics
+    with open('Output.txt', 'w') as f:
+        f.write(f"Old list entries: {len(past_df)}\n")
+        f.write(f"New entries: {count_new_entries}\n")
+        f.write(f"New list: {len(main_df)}\n")
+        addition_total = len(past_df) + count_new_entries
+        f.write(f"Addition total: {addition_total}\n")
+        discrepancy = addition_total - len(main_df)
+        f.write(f"Discrepancy: {discrepancy}\n")
