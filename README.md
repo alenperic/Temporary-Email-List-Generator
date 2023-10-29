@@ -1,4 +1,5 @@
 # Temporary Email Domains List Creation Automation
+This script may be used to automatically generate a list of temporary email domains in .csv format, which may then be used to block users signing up with temporary emails (such as 30 minute email services). The domain list sources are available across GitHub and need to be added to the *sources.txt* file.
 
 ## Description
 
