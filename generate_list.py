@@ -4,6 +4,7 @@ import os
 import urllib.request
 import urllib.error
 import shutil
+import re
 from datetime import datetime
 
 # Command-line argument parsing
@@ -14,6 +15,20 @@ parser.add_argument('-S', '--sources-file', help='Specify a local .txt file cont
 parser.add_argument('-M', '--main-file', help='Specify the main CSV file', required=False, default='new_list_unedited.csv')
 parser.add_argument('-W', '--whitelist-file', help='Specify the whitelist CSV file', required=False, default='allowlist.csv')
 args = parser.parse_args()
+
+# Function to remove entries with * symbol or non-base64 characters
+def remove_special_entries(df, column):
+    # Create a base64 character set, including '.' and '-'
+    base64_chars = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-")
+
+    # Define a function to check each entry
+    def check_entry(entry):
+        return all(char in base64_chars for char in entry) and '*' not in entry
+
+    # Apply the function to filter the DataFrame
+    return df[df[column].apply(check_entry)]
+
+
 
 
 
@@ -128,7 +143,8 @@ if __name__ == "__main__":
 
     # De-duplicate the entries
     main_df = main_df.drop_duplicates(subset=[column])
-    
+    main_df = remove_special_entries(main_df, column)
+
     whitelist_df = pd.read_csv(whitelist_file, header=None)
     removed_entries = main_df[main_df[column].isin(whitelist_df[column])]
     if not removed_entries.empty:
